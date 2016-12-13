@@ -1,8 +1,12 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.render;
 
 import android.content.Context;
 import android.opengl.Matrix;
 
+import com.creativept.learncardboard.R;
+import com.creativept.learncardboard.shape.BaseSkyBox;
+import com.creativept.learncardboard.shape.Texture;
+import com.creativept.learncardboard.util.TextureUtil;
 import com.google.vr.sdk.base.Eye;
 import com.google.vr.sdk.base.HeadTransform;
 import com.google.vr.sdk.base.Viewport;
@@ -54,7 +58,7 @@ public class SkyBoxRender extends BaseSkyBoxRender {
         return new BaseSkyBox(mContext) {
             @Override
             protected int getTextureId() {
-                return MyGLUtils.loadCubeMap(mContext,
+                return TextureUtil.loadCubeMap(mContext,
                         new int[]{R.drawable.left, R.drawable.right,
                                 R.drawable.bottom, R.drawable.top,
                                 R.drawable.front, R.drawable.back});

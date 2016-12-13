@@ -1,4 +1,4 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.shape;
 
 import android.content.Context;
 
@@ -15,7 +15,7 @@ public abstract class Shape {
     protected Context mContext;
     protected int mProgram;
 
-    public Shape(Context context){
+    public Shape(Context context) {
         this.mContext = context;
     }
 
@@ -23,5 +23,5 @@ public abstract class Shape {
 
     protected abstract void initData();
 
-    protected abstract void draw(float[] matrix);
+    public abstract void draw(float[] matrix);
 }

@@ -1,7 +1,8 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.render;
 
 import android.content.Context;
 
+import com.creativept.learncardboard.shape.BaseSkyBox;
 import com.google.vr.sdk.base.Eye;
 import com.google.vr.sdk.base.GvrView;
 import com.google.vr.sdk.base.HeadTransform;
@@ -55,14 +56,14 @@ public abstract class BaseSkyBoxRender implements GvrView.StereoRenderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
         perspective = eye.getPerspective(getZ_NEAR(), getZ_FAR());
-
-        drawEye(eye);
-
         if (mSkyBox != null) {
             multiplyMM(modelView, 0, view, 0, model, 0);
             multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
             mSkyBox.draw(modelViewProjection);
         }
+
+        drawEye(eye);
+
 
     }
 

@@ -1,6 +1,10 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.shape;
 
 import android.content.Context;
+
+import com.creativept.learncardboard.R;
+import com.creativept.learncardboard.util.CommonUtil;
+import com.creativept.learncardboard.util.ShaderProgramUtil;
 
 import java.nio.FloatBuffer;
 
@@ -40,9 +44,9 @@ public class Cube extends Shape {
 
     @Override
     protected void createProgram() {
-        mProgram = MyGLUtils.newLinkProgram(
-                MyGLUtils.loadShader(mContext, GL_VERTEX_SHADER, R.raw.triangle_vertex),
-                MyGLUtils.loadShader(mContext, GL_FRAGMENT_SHADER, R.raw.triangle_fragment));
+        mProgram = ShaderProgramUtil.newLinkProgram(
+                ShaderProgramUtil.loadShader(mContext, GL_VERTEX_SHADER, R.raw.triangle_vertex),
+                ShaderProgramUtil.loadShader(mContext, GL_FRAGMENT_SHADER, R.raw.triangle_fragment));
 
         matrixHandler = glGetUniformLocation(mProgram, "u_Matrix");
         positionHandler = glGetAttribLocation(mProgram, "a_Position");
@@ -52,15 +56,15 @@ public class Cube extends Shape {
     @Override
     protected void initData() {
 
-        vertexBuffer = MyGLUtils.newFloatBuffer(WorldLayoutData.CUBE_COORDS);
+        vertexBuffer = CommonUtil.newFloatBuffer(WorldLayoutData.CUBE_COORDS);
         vertexBuffer.position(0);
 
-        colorBuffer = MyGLUtils.newFloatBuffer(WorldLayoutData.CUBE_COLORS);
+        colorBuffer = CommonUtil.newFloatBuffer(WorldLayoutData.CUBE_COLORS);
         colorBuffer.position(0);
     }
 
     @Override
-    protected void draw(float[] matrix) {
+    public void draw(float[] matrix) {
         glUseProgram(mProgram);
         glUniformMatrix4fv(matrixHandler, 1, false, matrix, 0);
         glVertexAttribPointer(positionHandler, 3, GL_FLOAT, false, 0, vertexBuffer);

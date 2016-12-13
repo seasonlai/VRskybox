@@ -1,7 +1,10 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.shape;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.creativept.learncardboard.util.CommonUtil;
+import com.creativept.learncardboard.util.ShaderProgramUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -44,6 +47,7 @@ public abstract class BaseSkyBox extends Shape {
                     "    v_Position = a_Position;\t\n" +
                     "    v_Position.z = -v_Position.z; \n" +
                     "    gl_Position = u_Matrix * vec4(a_Position, 1.0);\n" +
+                    "    gl_Position = gl_Position.xyww;\n" +
                     "}    \n";
 
     private final String fShaderStr =
@@ -111,9 +115,9 @@ public abstract class BaseSkyBox extends Shape {
     @Override
     protected void createProgram() {
 
-        this.mProgram = MyGLUtils.newLinkProgram(
-                MyGLUtils.loadShader(GL_VERTEX_SHADER, vShaderStr),
-                MyGLUtils.loadShader(GL_FRAGMENT_SHADER, fShaderStr)
+        this.mProgram = ShaderProgramUtil.newLinkProgram(
+                ShaderProgramUtil.loadShader(GL_VERTEX_SHADER, vShaderStr),
+                ShaderProgramUtil.loadShader(GL_FRAGMENT_SHADER, fShaderStr)
         );
         mPositionHandler = glGetAttribLocation(mProgram, "a_Position");
         mMVPMatrixHandler = glGetUniformLocation(mProgram, "u_Matrix");
@@ -122,7 +126,7 @@ public abstract class BaseSkyBox extends Shape {
 
     @Override
     protected void initData() {
-        vertexBuffer = MyGLUtils.newFloatBuffer(vertexArray);
+        vertexBuffer = CommonUtil.newFloatBuffer(vertexArray);
         vertexBuffer.position(0);
 
         indexBuffer = ByteBuffer.allocateDirect(indexArray.length)

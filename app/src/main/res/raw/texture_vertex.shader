@@ -7,5 +7,4 @@ void main()
 {
     v_TextureCoordinates = a_TextureCoordinates;
     gl_Position = u_Matrix * a_Position;
-    gl_Position = gl_Position.xyww;
 }    

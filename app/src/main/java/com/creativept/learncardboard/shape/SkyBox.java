@@ -1,6 +1,9 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.shape;
 
 import android.content.Context;
+
+import com.creativept.learncardboard.R;
+import com.creativept.learncardboard.util.TextureUtil;
 
 /**
  * 类名
@@ -19,7 +22,7 @@ public class SkyBox extends BaseSkyBox {
 
     @Override
     protected int getTextureId() {
-        return MyGLUtils.loadCubeMap(mContext,
+        return TextureUtil.loadCubeMap(mContext,
                 new int[]{R.drawable.left, R.drawable.right,
                         R.drawable.bottom, R.drawable.top,
                         R.drawable.front, R.drawable.back});

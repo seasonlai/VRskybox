@@ -1,6 +1,11 @@
-package com.creativept.learncardboard;
+package com.creativept.learncardboard.shape;
 
 import android.content.Context;
+
+import com.creativept.learncardboard.R;
+import com.creativept.learncardboard.util.CommonUtil;
+import com.creativept.learncardboard.util.ShaderProgramUtil;
+import com.creativept.learncardboard.util.TextureUtil;
 
 import java.nio.FloatBuffer;
 
@@ -54,7 +59,7 @@ public class Texture extends Shape {
     private FloatBuffer vertexBuffer;
     private int mTextureId;
 
-    protected Texture(Context context) {
+    public Texture(Context context) {
         super(context);
         createProgram();
         initData();
@@ -63,9 +68,9 @@ public class Texture extends Shape {
     @Override
     protected void createProgram() {
 
-        mProgram = MyGLUtils.newLinkProgram(
-                MyGLUtils.loadShader(mContext, GL_VERTEX_SHADER, R.raw.texture_vertex),
-                MyGLUtils.loadShader(mContext, GL_FRAGMENT_SHADER, R.raw.texture_fragment)
+        mProgram = ShaderProgramUtil.newLinkProgram(
+                ShaderProgramUtil.loadShader(mContext, GL_VERTEX_SHADER, R.raw.texture_vertex),
+                ShaderProgramUtil.loadShader(mContext, GL_FRAGMENT_SHADER, R.raw.texture_fragment)
         );
         aPositionHandler = glGetAttribLocation(mProgram, "a_Position");
         aTextureCoordinateHandler = glGetAttribLocation(mProgram, "a_TextureCoordinates");
@@ -76,17 +81,17 @@ public class Texture extends Shape {
     @Override
     protected void initData() {
 
-        vertexBuffer = MyGLUtils.newFloatBuffer(vertexArray);
+        vertexBuffer = CommonUtil.newFloatBuffer(vertexArray);
         vertexBuffer.position(0);
 
-        textureBuffer = MyGLUtils.newFloatBuffer(textureCoordinate);
+        textureBuffer = CommonUtil.newFloatBuffer(textureCoordinate);
         textureBuffer.position(0);
 
-        mTextureId = MyGLUtils.loadTexture(mContext, R.drawable.test);
+        mTextureId = TextureUtil.loadTexture(mContext, R.drawable.test);
     }
 
     @Override
-    protected void draw(float[] matrix) {
+    public void draw(float[] matrix) {
 
         glUseProgram(mProgram);
 

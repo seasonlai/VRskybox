@@ -3,6 +3,7 @@ package com.creativept.learncardboard;
 import android.os.Bundle;
 import android.view.View;
 
+import com.creativept.learncardboard.render.SkyBoxRender;
 import com.google.vr.sdk.base.AndroidCompat;
 import com.google.vr.sdk.base.GvrActivity;
 import com.google.vr.sdk.base.GvrView;
