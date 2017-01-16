@@ -3,10 +3,9 @@ package com.creativept.learncardboard.render;
 import android.content.Context;
 import android.opengl.Matrix;
 
-import com.creativept.learncardboard.R;
 import com.creativept.learncardboard.shape.BaseSkyBox;
+import com.creativept.learncardboard.shape.SkyBox;
 import com.creativept.learncardboard.shape.Texture;
-import com.creativept.learncardboard.util.TextureUtil;
 import com.google.vr.sdk.base.Eye;
 import com.google.vr.sdk.base.HeadTransform;
 import com.google.vr.sdk.base.Viewport;
@@ -55,15 +54,7 @@ public class SkyBoxRender extends BaseSkyBoxRender {
 
     @Override
     protected BaseSkyBox getSkyBox() {
-        return new BaseSkyBox(mContext) {
-            @Override
-            protected int getTextureId() {
-                return TextureUtil.loadCubeMap(mContext,
-                        new int[]{R.drawable.left, R.drawable.right,
-                                R.drawable.bottom, R.drawable.top,
-                                R.drawable.front, R.drawable.back});
-            }
-        };
+        return new SkyBox(mContext);
     }
 
     @Override
@@ -72,9 +63,9 @@ public class SkyBoxRender extends BaseSkyBoxRender {
     }
 
     @Override
-    public void drawEye(Eye eye) {
-        multiplyMM(modelView, 0, getViewMatrix(), 0, model, 0);
-        multiplyMM(modelViewProjection, 0, getPerspectiveMatrix(), 0, modelView, 0);
+    public void drawEye(Eye eye, float[] perspectiveMatrix, float[] viewMatrix) {
+        multiplyMM(modelView, 0, viewMatrix, 0, model, 0);
+        multiplyMM(modelViewProjection, 0, perspectiveMatrix, 0, modelView, 0);
         mTexture.draw(modelViewProjection);
     }
 
@@ -84,7 +75,6 @@ public class SkyBoxRender extends BaseSkyBoxRender {
 
 
     private Texture mTexture;
-    private float[] camera;
     private final float[] model = new float[16];
     private final float[] modelView = new float[16];
     private float[] modelViewProjection = new float[16];
@@ -92,7 +82,6 @@ public class SkyBoxRender extends BaseSkyBoxRender {
     @Override
     public void surfaceCreated(EGLConfig eglConfig) {
         mTexture = new Texture(mContext);
-        camera = getCameraMatrix();
 
         updateTextureLocation(0f, 0f, 0f);
     }

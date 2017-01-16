@@ -62,7 +62,7 @@ public abstract class BaseSkyBoxRender implements GvrView.StereoRenderer {
             mSkyBox.draw(modelViewProjection);
         }
 
-        drawEye(eye);
+        drawEye(eye, perspective, view);
 
 
     }
@@ -111,7 +111,7 @@ public abstract class BaseSkyBoxRender implements GvrView.StereoRenderer {
 
     protected void updateCameraMatrix(float[] m, int offset) {
         if (m == null || offset < 0 || offset + 16 > m.length) {
-            throw new RuntimeException("BaseSkyBoxRender的uupdateCameraMatrix的参数不对！");
+            throw new RuntimeException("BaseSkyBoxRender的updateCameraMatrix的参数不对！");
         }
         System.arraycopy(camera, 0, m, offset, offset + 16);
     }
@@ -134,7 +134,7 @@ public abstract class BaseSkyBoxRender implements GvrView.StereoRenderer {
 
     protected abstract void newFrame(HeadTransform headTransform);
 
-    public abstract void drawEye(Eye eye);
+    public abstract void drawEye(Eye eye, float[] perspectiveMatrix, float[] viewMatrix);
 
     public abstract void finishFrame(Viewport viewport);
 

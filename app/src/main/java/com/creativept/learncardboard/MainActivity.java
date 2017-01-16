@@ -23,7 +23,6 @@ public class MainActivity extends GvrActivity implements View.OnClickListener {
     }
 
     public void initializeGvrView() {
-        setContentView(R.layout.common_ui);
 
         GvrView gvrView = (GvrView) findViewById(R.id.gvr_view);
         gvrView.setEGLConfigChooser(8, 8, 8, 8, 16, 8);
@@ -35,6 +34,11 @@ public class MainActivity extends GvrActivity implements View.OnClickListener {
         if (gvrView.setAsyncReprojectionEnabled(true)) {
             AndroidCompat.setSustainedPerformanceMode(this, true);
         }
+//        Display display = getWindowManager().getDefaultDisplay();
+//        ScreenParams params = new ScreenParams(display);
+//        params.setWidth(1920);
+//        params.setHeight(936);
+//        gvrView.updateScreenParams(params);
 
         setGvrView(gvrView);
     }
@@ -47,7 +51,8 @@ public class MainActivity extends GvrActivity implements View.OnClickListener {
         findViewById(R.id.btn_z_add).setOnClickListener(this);
         findViewById(R.id.btn_z_cut).setOnClickListener(this);
     }
-//
+
+    //
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

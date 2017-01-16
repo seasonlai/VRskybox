@@ -104,11 +104,9 @@ public abstract class BaseSkyBox extends Shape {
     private int uTextureUnitHandler;
     private int mSkyboxTexture;
     private static final int POSITON_COMPONENT_COUNT = 3;
-    private boolean isInit;
 
     public BaseSkyBox(Context context) {
         super(context);
-        createProgram();
         initData();
     }
 
@@ -126,6 +124,11 @@ public abstract class BaseSkyBox extends Shape {
 
     @Override
     protected void initData() {
+        mSkyboxTexture = getTextureId();
+        if (mSkyboxTexture == 0) {
+            Log.e("BaseSkyBox", "纹理未成功加载");
+            return;
+        }
         vertexBuffer = CommonUtil.newFloatBuffer(vertexArray);
         vertexBuffer.position(0);
 
@@ -133,13 +136,11 @@ public abstract class BaseSkyBox extends Shape {
                 .order(ByteOrder.nativeOrder())
                 .put(indexArray);
         indexBuffer.position(0);
+
+        createProgram();
     }
 
     public void draw(float[] mMVPMatrix) {
-        if (!isInit) {
-            mSkyboxTexture = getTextureId();
-            isInit = true;
-        }
         if (mSkyboxTexture == 0) {
             Log.e("BaseSkyBox", "纹理未成功加载");
             return;
@@ -154,6 +155,7 @@ public abstract class BaseSkyBox extends Shape {
                 GL_FLOAT, false, 0, vertexBuffer);
         glEnableVertexAttribArray(mPositionHandler);
         glDrawElements(GL_TRIANGLES, indexArray.length, GL_UNSIGNED_BYTE, indexBuffer);
+
     }
 
     /**
