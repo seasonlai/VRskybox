@@ -80,4 +80,5 @@ public class Triangle extends Shape {
         glEnableVertexAttribArray(colorHandler);
         glDrawArrays(GL_TRIANGLES, 0, 3);
     }
+
 }

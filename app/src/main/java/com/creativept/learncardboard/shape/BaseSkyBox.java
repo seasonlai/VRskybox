@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.creativept.learncardboard.util.CommonUtil;
 import com.creativept.learncardboard.util.ShaderProgramUtil;
+import com.creativept.learncardboard.util.TextureUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,6 +20,7 @@ import static android.opengl.GLES20.GL_UNSIGNED_BYTE;
 import static android.opengl.GLES20.GL_VERTEX_SHADER;
 import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
+import static android.opengl.GLES20.glDisableVertexAttribArray;
 import static android.opengl.GLES20.glDrawElements;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
@@ -155,7 +157,7 @@ public abstract class BaseSkyBox extends Shape {
                 GL_FLOAT, false, 0, vertexBuffer);
         glEnableVertexAttribArray(mPositionHandler);
         glDrawElements(GL_TRIANGLES, indexArray.length, GL_UNSIGNED_BYTE, indexBuffer);
-
+        glDisableVertexAttribArray(mPositionHandler);
     }
 
     /**
@@ -165,4 +167,9 @@ public abstract class BaseSkyBox extends Shape {
      */
     protected abstract int getTextureId();
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        TextureUtil.delete(mSkyboxTexture);
+    }
 }

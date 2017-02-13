@@ -199,4 +199,8 @@ public class TextureUtil {
                 || GL_NEAREST_MIPMAP_NEAREST <= mag_filter && mag_filter <= GL_LINEAR_MIPMAP_LINEAR;
     }
 
+    public static void delete(int textureId) {
+        glDeleteTextures(1, new int[]{textureId}, 0);
+    }
+
 }

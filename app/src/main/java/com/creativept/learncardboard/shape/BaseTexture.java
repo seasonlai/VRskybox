@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.creativept.learncardboard.util.CommonUtil;
 import com.creativept.learncardboard.util.ShaderProgramUtil;
+import com.creativept.learncardboard.util.TextureUtil;
 
 import java.nio.FloatBuffer;
 
@@ -16,6 +17,7 @@ import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
 import static android.opengl.GLES20.GL_VERTEX_SHADER;
 import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
+import static android.opengl.GLES20.glDisableVertexAttribArray;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
@@ -116,9 +118,17 @@ public abstract class BaseTexture extends Shape {
 
 
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glDisableVertexAttribArray(aPositionHandler);
+        glDisableVertexAttribArray(aTextureCoordinateHandler);
     }
 
     protected abstract int getTextureId();
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        TextureUtil.delete(mTextureId);
+    }
 
     private final String vShaderStr = "uniform mat4 u_Matrix;\n" +
             "attribute vec4 a_Position;\n" +

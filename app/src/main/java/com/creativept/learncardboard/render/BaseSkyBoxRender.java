@@ -13,7 +13,9 @@ import javax.microedition.khronos.egl.EGLConfig;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_DEPTH_BUFFER_BIT;
 import static android.opengl.GLES20.GL_DEPTH_TEST;
+import static android.opengl.GLES20.GL_LEQUAL;
 import static android.opengl.GLES20.glClear;
+import static android.opengl.GLES20.glDepthFunc;
 import static android.opengl.GLES20.glEnable;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
@@ -53,15 +55,16 @@ public abstract class BaseSkyBoxRender implements GvrView.StereoRenderer {
     public void onDrawEye(Eye eye) {
 
         glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);//开启深度测试后，这句话要加，不然会绘制失败
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
         perspective = eye.getPerspective(getZ_NEAR(), getZ_FAR());
+
         if (mSkyBox != null) {
             multiplyMM(modelView, 0, view, 0, model, 0);
             multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
             mSkyBox.draw(modelViewProjection);
         }
-
         drawEye(eye, perspective, view);
 
 

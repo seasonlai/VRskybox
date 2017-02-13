@@ -119,4 +119,8 @@ public class ShaderProgramUtil {
                 + "\nLog:");
         return validateStatus[0] != 0;
     }
+
+    public static void delete(int programId){
+        glDeleteProgram(programId);
+    }
 }

@@ -2,6 +2,7 @@ package com.creativept.learncardboard.render;
 
 import android.content.Context;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.creativept.learncardboard.shape.BaseSkyBox;
 import com.creativept.learncardboard.shape.SkyBox;
@@ -27,18 +28,20 @@ import static android.opengl.Matrix.translateM;
 public class SkyBoxRender extends BaseSkyBoxRender {
 
 
+    private static final String TAG = "SkyBoxRender";
+
     public SkyBoxRender(Context context) {
         super(context);
     }
 
     @Override
     protected float getZ_NEAR() {
-        return 0.1f;
+        return 0.001f;
     }
 
     @Override
     protected float getZ_FAR() {
-        return 10f;
+        return 1000f;
     }
 
     @Override
@@ -54,7 +57,8 @@ public class SkyBoxRender extends BaseSkyBoxRender {
 
     @Override
     protected BaseSkyBox getSkyBox() {
-        return new SkyBox(mContext);
+        mSkyBox = new SkyBox(mContext);
+        return mSkyBox;
     }
 
     @Override
@@ -67,6 +71,9 @@ public class SkyBoxRender extends BaseSkyBoxRender {
         multiplyMM(modelView, 0, viewMatrix, 0, model, 0);
         multiplyMM(modelViewProjection, 0, perspectiveMatrix, 0, modelView, 0);
         mTexture.draw(modelViewProjection);
+        mTexture2.draw(modelViewProjection);
+        mTexture3.draw(modelViewProjection);
+        mTexture4.draw(modelViewProjection);
     }
 
     @Override
@@ -75,6 +82,10 @@ public class SkyBoxRender extends BaseSkyBoxRender {
 
 
     private Texture mTexture;
+    private Texture mTexture2;
+    private Texture mTexture3;
+    private Texture mTexture4;
+    private SkyBox mSkyBox;
     private final float[] model = new float[16];
     private final float[] modelView = new float[16];
     private float[] modelViewProjection = new float[16];
@@ -82,6 +93,9 @@ public class SkyBoxRender extends BaseSkyBoxRender {
     @Override
     public void surfaceCreated(EGLConfig eglConfig) {
         mTexture = new Texture(mContext);
+        mTexture2 = new Texture(mContext);
+        mTexture3 = new Texture(mContext);
+        mTexture4 = new Texture(mContext);
 
         updateTextureLocation(0f, 0f, 0f);
     }
@@ -98,5 +112,11 @@ public class SkyBoxRender extends BaseSkyBoxRender {
 
     @Override
     public void rendererShutdown() {
+        Log.e(TAG, "--------------rendererShutdown: ");
+        mSkyBox.destroy();
+        mTexture.destroy();
+        mTexture2.destroy();
+        mTexture3.destroy();
+        mTexture4.destroy();
     }
 }

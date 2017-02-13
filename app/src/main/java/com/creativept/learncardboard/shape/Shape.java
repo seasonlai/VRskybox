@@ -2,6 +2,8 @@ package com.creativept.learncardboard.shape;
 
 import android.content.Context;
 
+import com.creativept.learncardboard.util.ShaderProgramUtil;
+
 /**
  * 类名
  * 创建时间 2016/12/12
@@ -15,7 +17,7 @@ public abstract class Shape {
     protected Context mContext;
     protected int mProgram;
 
-    public Shape(Context context) {
+    protected Shape(Context context) {
         this.mContext = context;
     }
 
@@ -24,4 +26,11 @@ public abstract class Shape {
     protected abstract void initData();
 
     public abstract void draw(float[] matrix);
+
+    /**
+     * 销毁
+     */
+    public void destroy() {
+        ShaderProgramUtil.delete(mProgram);
+    }
 }
